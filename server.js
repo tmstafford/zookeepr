@@ -1,15 +1,14 @@
 const express = require('express');
+const { animals } = require('./data/animals');
+
 const PORT = process.env.PORT || 3001;
 const app = express();
-
-const { animals } = require('./data/animals');
 
 function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
 
     let filteredResults = animalsArray;
     if (query.personalityTraits) {
-        // save personalityTraits as a dedicated array. If a string, place into new array and save
         if (typeof query.personalityTraits === 'string') {
             personalityTraitsArray = [query.personalityTraits];
         } else {
@@ -17,10 +16,6 @@ function filterByQuery(query, animalsArray) {
         }
         // Loop through each trait in the personalityTraits array
         personalityTraitsArray.forEach(trait => {
-            // Check the trait against each animal in filteredResults array.
-            // For each trait being targeted by the filter, the filteredResults revises so it only 
-                // contains animals with the indicated trait. At the end of the forEach loop, the array
-                // will only contain animals that have all the traits targeted.
             filteredResults = filteredResults.filter(animal => animal.personalityTraits.indexOf(trait) !== -1);
         });
     }
